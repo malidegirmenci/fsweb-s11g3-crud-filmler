@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
-import { deleteMovie } from '../App'
+
 import axios from "axios";
 
 const Movie = (props) => {
@@ -54,7 +54,7 @@ const Movie = (props) => {
       </div>
 
       <div className="px-5 py-3 border-t border-zinc-200 flex justify-end gap-2">
-        <button className="myButton bg-blue-600 hover:bg-blue-500 ">
+        <button onClick={() => {addToFavorites(movie)}}className="myButton bg-blue-600 hover:bg-blue-500 ">
           Favorilere ekle
         </button>
         <Link

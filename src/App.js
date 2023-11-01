@@ -31,15 +31,17 @@ const App = (props) => {
       .then((res) => {
         console.log(res)
         setMovies(res.data);
+        const remainingFavMovies = favoriteMovies.filter((item) => item.id !== id)
+        setFavoriteMovies(remainingFavMovies)
       })
       .catch((err) => {
         console.log(err)
       })
   }
   
-  
   const addToFavorites = (movie) => {
-
+    const foundMovie = favoriteMovies.find((item) => item.id === movie.id)
+    return foundMovie ? favoriteMovies : setFavoriteMovies([movie, ...favoriteMovies])
   }
 
   return (
@@ -60,7 +62,7 @@ const App = (props) => {
               <AddMovieForm setMovies={setMovies} />
             </Route>
             <Route path="/movies/:id">
-              <Movie deleteMovie={deleteMovie} />
+              <Movie deleteMovie={deleteMovie} addToFavorites={addToFavorites} />
             </Route>
             <Route path="/movies">
               <MovieList movies={movies} />
