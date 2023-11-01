@@ -31,29 +31,33 @@ const App = (props) => {
       .then((res) => {
         console.log(res)
         setMovies(res.data);
-        const remainingFavMovies = favoriteMovies.filter((item) => item.id !== id)
-        setFavoriteMovies(remainingFavMovies)
+        removeFromFavorites(id)
       })
       .catch((err) => {
         console.log(err)
       })
   }
-  
+  const removeFromFavorites = (id) => {
+    const remainingFavMovies = favoriteMovies.filter((item) => item.id !== id)
+    setFavoriteMovies(remainingFavMovies)
+  }
   const addToFavorites = (movie) => {
     const foundMovie = favoriteMovies.find((item) => item.id === movie.id)
-    return foundMovie ? favoriteMovies : setFavoriteMovies([movie, ...favoriteMovies])
+    const favs = foundMovie ? favoriteMovies : setFavoriteMovies([movie, ...favoriteMovies])
+    return favs
   }
 
   return (
     <div>
-      <nav className="bg-zinc-800 px-6 py-3">
+      <nav className="flex justify-between bg-zinc-800 px-6 py-3">
         <h1 className="text-xl text-white">HTTP / CRUD Film Projesi</h1>
+        <button className="text-white"> Gece Modu</button>
       </nav>
 
       <div className="max-w-4xl mx-auto px-3 pb-4">
         <MovieHeader />
         <div className="flex flex-col sm:flex-row gap-4">
-          <FavoriteMovieList favoriteMovies={favoriteMovies} />
+          <FavoriteMovieList favoriteMovies={favoriteMovies} removeFromFavorites={removeFromFavorites} />
           <Switch>
             <Route path="/movies/edit/:id">
               <EditMovieForm setMovies={setMovies} />
