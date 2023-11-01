@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
-
+import { deleteMovie } from '../App'
 import axios from "axios";
 
 const Movie = (props) => {
-  const { addToFavorites } = props;
-
+  const { addToFavorites, deleteMovie } = props;
   const [movie, setMovie] = useState("");
 
   const { id } = useParams();
@@ -15,13 +14,17 @@ const Movie = (props) => {
     axios
       .get(`http://localhost:9000/api/movies/${id}`)
       .then((res) => {
+        //console.log("Movie", res.data);
         setMovie(res.data);
       })
       .catch((err) => {
         console.log(err.response);
       });
   }, [id]);
-
+  const removeHandler = (id) => {
+    deleteMovie(id);
+    push('/movies');
+  }
   return (
     <div className="bg-white rounded-md shadow flex-1">
       <div className="p-5 pb-3 border-b border-zinc-200">
@@ -60,7 +63,7 @@ const Movie = (props) => {
         >
           Edit
         </Link>
-        <button type="button" className="myButton bg-red-600 hover:bg-red-500">
+        <button onClick={() => removeHandler(id)} type="button" className="myButton bg-red-600 hover:bg-red-500">
           Sil
         </button>
       </div>
